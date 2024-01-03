@@ -1,17 +1,21 @@
 package management.gui.showPages;
 
+import management.business.Distributor;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ShowSubscribersPage {
-    public ShowSubscribersPage() {
+    public ShowSubscribersPage(Distributor distributor) {
         // Code to retrieve and display subscriber information
-        String subscribersInfo = "main.Individual main.Subscriber\nName: John Doe\nAddress: 123 Main St\n"
-                + "Credit Card Number: **** **** **** 1234\nExpire Date: 12/25\nCCV: 456\n\n"
-                + "Corporation main.Subscriber\nName: XYZ Corp\nAddress: 456 Business St\n"
-                + "Bank Code: 789\nBank Name: Business Bank\nIssue Date: 01/22/2023\nAccount Number: 987654321\n";
+        StringBuilder subscribersInfo = new StringBuilder();
+        String[] subscribers = distributor.getSubscribersInformation();
 
-        JTextArea textArea = new JTextArea(subscribersInfo);
+        for(String subscriber : subscribers) {
+            subscribersInfo.append(subscriber).append("\n");
+        }
+
+        JTextArea textArea = new JTextArea(subscribersInfo.toString());
         textArea.setEditable(false);
 
         JScrollPane scrollPane = new JScrollPane(textArea);

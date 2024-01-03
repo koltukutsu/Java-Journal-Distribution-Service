@@ -36,4 +36,28 @@ public class Journal {
     public double getIssuePrice() {
         return issuePrice;
     }
+
+    public Vector<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public String getJournalInformation() {
+        return "Journal name: " + name + "\n" +
+                "Journal ISSN: " + issn + "\n" +
+                "Journal frequency: " + frequency + "\n" +
+                "Journal issue price: " + issuePrice + "\n";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Object getFrequency() {
+        return frequency;
+    }
+
+    public Object getJournalName() {
+        return name;
+    }
 }
+

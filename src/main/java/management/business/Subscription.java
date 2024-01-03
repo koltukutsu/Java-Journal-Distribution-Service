@@ -67,4 +67,17 @@ public class Subscription {
     public int getCopies() {
         return copies;
     }
+
+    public String getSubscriptionInformation() {
+        return "Date: " + dates.getStartMonth() + " - " + dates.getEndMonth() + " - " + dates.getStartYear() + "\n" +
+                "Copies: " + copies + "\n" +
+                "Journal: " + journal.getName() + "\n" +
+                "Subscriber: " + subscriber.getName() + "\n" +
+                "Payment: " + payment.getReceivedPayment() + "\n" +
+                "Discount: " + payment.getDiscountRatio() + "\n" +
+                "Issue Price: " + journal.getIssuePrice() + "\n" +
+                "Total Price: " + (journal.getIssuePrice() * copies) + "\n" +
+                "Can Send: " + this.canSend(1) + "\n";
+    }
+
 }

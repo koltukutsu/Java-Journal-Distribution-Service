@@ -1,19 +1,22 @@
 package management.gui.showPages;
 
+import management.business.Distributor;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class ShowJournalsPage {
-    public ShowJournalsPage() {
-        // Code to retrieve and display journal information
-        String journalsInfo = "main.Journal A\nISSN: 12345\nFrequency: Monthly\nIssue Price: $10.00\n\n"
-                + "main.Journal B\nISSN: 67890\nFrequency: Weekly\nIssue Price: $15.00\n";
+    public ShowJournalsPage(Distributor distributor) {
+        String[] columnNames = {"ISSN", "Frequency", "Journal Name", "Issue Price"};
 
-        JTextArea textArea = new JTextArea(journalsInfo);
-        textArea.setEditable(false);
+        Object[][] data = distributor.getJournalsData(); // Assuming getJournalsData returns a 2D array of journal data
 
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(400, 300));
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+        JTable jTable = new JTable(tableModel);
+
+        JScrollPane scrollPane = new JScrollPane(jTable);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
 
         JOptionPane.showMessageDialog(null, scrollPane, "Journals Information", JOptionPane.INFORMATION_MESSAGE);
     }

@@ -12,6 +12,20 @@ public class Individual extends Subscriber{
 
     @Override
     public String getBillingInformation() {
-        return null;
+        return "Individual Name:" + super.getName() + "\n" +
+                "Address:" + super.getAddress() + "\n" +
+                "Credit card number:" + creditCardNr + "\n" +
+                "Expire month:" + expireMonth + "\n" +
+                "Expire year:" + expireYear + "\n" +
+                "CCV:" + CCV + "\n";
+    }
+
+    public String getIndividualInformation() {
+        return "Individual Name:" + super.getName() + "\n" +
+                "Address:" + super.getAddress() + "\n" +
+                "Credit card number:" + creditCardNr + "\n" +
+                "Expire month:" + expireMonth + "\n" +
+                "Expire year:" + expireYear + "\n" +
+                "CCV:" + CCV + "\n";
     }
 }

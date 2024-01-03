@@ -1,11 +1,14 @@
 package management.gui.addPages;
 
+import management.business.Distributor;
+import management.gui.JournalManagementSystem;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class AddSubscriptionPage {
-    public AddSubscriptionPage() {
+    public AddSubscriptionPage(Distributor distributor, JournalManagementSystem subscriptionObserver) {
         JFrame addSubscriptionFrame = new JFrame("Add main.Subscription");
         addSubscriptionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -47,6 +50,7 @@ public class AddSubscriptionPage {
             JOptionPane.showMessageDialog(addSubscriptionFrame, "main.Subscription added successfully!");
             addSubscriptionFrame.dispose(); // Close the Add main.Subscription page
         });
+        subscriptionObserver.updateSubscriptions();
         panel.add(saveButton);
 
         addSubscriptionFrame.getContentPane().add(BorderLayout.CENTER, panel);

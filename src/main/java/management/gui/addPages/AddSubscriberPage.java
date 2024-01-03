@@ -1,11 +1,14 @@
 package management.gui.addPages;
 
+import management.business.Distributor;
+import management.gui.JournalManagementSystem;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class AddSubscriberPage {
-    public AddSubscriberPage() {
-        JFrame addSubscriberFrame = new JFrame("Add main.Subscriber");
+    public AddSubscriberPage(Distributor distributor, JournalManagementSystem subscriberObserver) {
+        JFrame addSubscriberFrame = new JFrame("Add Subscriber");
         addSubscriberFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel(new GridLayout(8, 2));
@@ -16,11 +19,11 @@ public class AddSubscriberPage {
         JTextField addressField = new JTextField();
         panel.add(addressField);
 
-        String[] options = {"main.Individual", "Corporation"};
+        String[] options = {"Individual", "Corporation"};
         int choice = JOptionPane.showOptionDialog(
                 addSubscriberFrame,
-                "Choose main.Subscriber Type:",
-                "main.Subscriber Type",
+                "Choose Subscriber Type:",
+                "Subscriber Type",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
@@ -67,8 +70,12 @@ public class AddSubscriberPage {
         saveButton.addActionListener(e -> {
             // Perform necessary actions with the input data (e.g., save to a data structure or database)
             // ...
+            if(choice == 0) {
 
-            JOptionPane.showMessageDialog(addSubscriberFrame, "main.Subscriber added successfully!");
+            } else {
+            }
+            JOptionPane.showMessageDialog(addSubscriberFrame, "Subscriber added successfully!");
+            subscriberObserver.updateSubscribers();
             addSubscriberFrame.dispose(); // Close the Add main.Subscriber page
         });
         panel.add(saveButton);

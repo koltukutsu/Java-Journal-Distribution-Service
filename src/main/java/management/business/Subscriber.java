@@ -18,4 +18,5 @@ public abstract class Subscriber {
     public String getAddress() {
         return address;
     }
+
 }
