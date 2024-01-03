@@ -11,8 +11,8 @@ public class SubscriptionTest extends TestCase {
 //        super.setUp();
         DateInfo dates = new DateInfo(2, 1, 2023);
         chosenJournal = new Journal("Journal of Testing", "1234-5678", 12, 10.00);
-        individual = new Individual("John Doe", "123 Main St. Anytown, NY 12345");
-        corporation = new Corporation("IBM", "123 Main St. Anytown, NY 12345");
+        individual = new Individual("John Doe", "123 Main St. Anytown, NY 12345", "1234-5678-9012-3456", 12, 2023, 123);
+        corporation = new Corporation("IBM", "123 Main St. Anytown, NY 12345", 123456, "Bank of America", 1, 1, 2020, 123456789);
         subscription1 = new Subscription(dates, 1, chosenJournal, individual);
         subscription2 = new Subscription(dates, 2, chosenJournal, corporation);
 

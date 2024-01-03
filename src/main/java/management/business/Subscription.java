@@ -16,15 +16,19 @@ public class Subscription implements Serializable {
         this.copies = copies;
         this.journal = journal;
         this.subscriber = subscriber;
+
+        payment = new PaymentInfo();
     }
 
     public void acceptPayment(double amount) {
-        if (payment == null) {
-            payment = new PaymentInfo();
-            payment.increasePayment(amount);
-        } else {
-            payment.increasePayment(amount);
-        }
+//        if (payment == null) {
+////            payment = new PaymentInfo();
+//            payment.increasePayment(amount);
+//        } else {
+//            payment.increasePayment(amount);
+//        }
+
+        payment.increasePayment(amount);
 
     }
 
@@ -60,12 +64,16 @@ public class Subscription implements Serializable {
         }
     }
 
+    public void increaseCoppies() {
+        this.copies++;
+    }
+
     public Subscriber getSubscriber() {
         return subscriber;
     }
 
-    public void increaseCoppies() {
-        this.copies++;
+    public Journal getJournal() {
+        return journal;
     }
 
     public int getCopies() {

@@ -53,9 +53,7 @@ public class DistributorTest extends TestCase {
         distributor.loadState(fileName);
         String journalIssn = journal.getIssn();
         Journal foundJournal = distributor.searchJournal(journalIssn);
-        System.out.println("Expected: " + foundJournal.getJournalInformation());
-        System.out.println("Actual: " + journal.getJournalInformation());
-        assertEquals(foundJournal, journal);
+        assertEquals(foundJournal.getJournalInformation(), journal.getJournalInformation());
         File file = new File(fileName);
         boolean isDeleted = file.delete();
         assertTrue(isDeleted);

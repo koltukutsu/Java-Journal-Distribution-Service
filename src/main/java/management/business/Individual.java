@@ -7,8 +7,12 @@ public class Individual extends Subscriber{
     private int expireYear;
     private int CCV;
 
-    public Individual(String name, String address) {
+    public Individual(String name, String address, String creditCardNr, int expireMonth, int expireYear, int CCV) {
         super(name, address);
+        this.creditCardNr = creditCardNr;
+        this.expireMonth = expireMonth;
+        this.expireYear = expireYear;
+        this.CCV = CCV;
     }
 
     @Override

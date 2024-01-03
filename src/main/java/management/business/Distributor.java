@@ -53,22 +53,31 @@ public class Distributor implements Serializable {
 
 
     public boolean addSubscription(String issn, Subscription subscription) {
-
-        if (this.searchJournal(issn) != null) {
+        Journal journal = this.searchJournal(issn);
+        if (journal != null) {
             // null then there is no subscriber with that name
-            if (this.searchSubscriber(subscription.getSubscriber().getName()) != null) {
-                subscription.increaseCoppies();
-                return true;
-            } else {
-                addSubscriber(subscription.getSubscriber());
-                // TODO: get the amount of coppies from the user
-                subscription.increaseCoppies();
-                return false;
+            Vector<Subscription> subscriptions = journal.getSubscriptions();
+            String subscriberName = subscription.getSubscriber().getName();
+            boolean isContains = false;
+
+            for(Subscription sub : subscriptions) {
+                if (sub.getSubscriber().getName().equals(subscriberName)) {
+                    isContains = true;
+                    break;
+                }
             }
+            if (isContains) {
+                System.out.println("Distributor - addSubscription(): Subscription already exists.\n\tIncreasing copies with 1.");
+            } else {
+                System.out.println("Distributor - addSubscription(): Subscription added.");
+                journal.addSubscription(subscription);
+                // TODO: get the amount of coppies from the user
+            }
+            subscription.increaseCoppies();
+            return true;
         } else {
             return false;
         }
-
     }
 
     public void listAllSendingOrders(int month, int year) {
@@ -98,10 +107,6 @@ public class Distributor implements Serializable {
     }
 
 
-    public String hello() {
-        return "hello";
-    }
-
     public int getJournalsSize() {
         return journals.size();
     }
@@ -113,6 +118,7 @@ public class Distributor implements Serializable {
     public int getSubscriptionsSize() {
         int subscriptionsAmount = 0;
         for (Journal journal : journals.values()) {
+            System.out.println(journal.getSubscriptions().size());
             for (Subscription subscription : journal.getSubscriptions()) {
                 subscriptionsAmount += subscription.getCopies();
             }
@@ -186,46 +192,36 @@ public class Distributor implements Serializable {
             return subscriptionsArray;
         }
     }
-
-    public String[] getSubscribersInformation() {
-        if (subscribers.isEmpty()) {
-            String[] subscribersArray = new String[1];
-            subscribersArray[0] = "No subscribers are added yet!";
-            return subscribersArray;
-        } else {
-            String[] subscribersArray = new String[subscribers.size()];
-            int counter = 0;
-            for (Subscriber subscriber : subscribers) {
-                if (subscriber instanceof Corporation)
-                    subscribersArray[counter] = ((Corporation) subscriber).getCorporationInformation();
-                else if (subscriber instanceof Individual)
-                    subscribersArray[counter] = ((Individual) subscriber).getIndividualInformation();
-                else
-                    counter++;
-            }
-            return subscribersArray;
+    public String[] getJournalsNames() {
+        String[] journalsNames = new String[journals.size()];
+        int counter = 0;
+        for (Journal journal : journals.values()) {
+            journalsNames[counter] = journal.getName();
+            counter++;
         }
+        return journalsNames;
+    }
+    public String[] getIndividualsNames() {
+        List<String> individualsNames = new ArrayList<String>();
+        for (Subscriber subscriber : subscribers) {
+            if (subscriber instanceof Individual) {
+                individualsNames.add(subscriber.getName());
+            }
+        }
+        return individualsNames.toArray(new String[0]);
     }
 
-    public String[] getSubscriptionsInformation() {
-        if (journals.isEmpty()) {
-            String[] subscriptionsArray = new String[1];
-            subscriptionsArray[0] = "No subscriptions are added yet!";
-            return subscriptionsArray;
-        } else {
-            String[] subscriptionsArray = new String[getSubscriptionsSize()];
-            int counter = 0;
-            for (Journal journal : journals.values()) {
-                for (Subscription subscription : journal.getSubscriptions()) {
-                    subscriptionsArray[counter] = subscription.getSubscriptionInformation();
-                    counter++;
-                }
+    public String[] getCorporationsNames() {
+        List<String> corporationsNames = new ArrayList<String>();
+        for (Subscriber subscriber : subscribers) {
+            if (subscriber instanceof Corporation) {
+                corporationsNames.add(subscriber.getName());
             }
-            return subscriptionsArray;
         }
+        return corporationsNames.toArray(new String[0]);
     }
 
-    public void saveState(String fileName) {
+    public synchronized void saveState(String fileName) {
         try {
             ObjectOutputStream writer = new ObjectOutputStream(
                     new FileOutputStream( fileName ) );
@@ -249,7 +245,7 @@ public class Distributor implements Serializable {
 //        }
     }
 
-    public void loadState(String fileName) {
+    public synchronized void loadState(String fileName) {
         try {
             ObjectInputStream reader = new ObjectInputStream(
                     new FileInputStream( fileName ) );
@@ -277,4 +273,11 @@ public class Distributor implements Serializable {
 
     }
 
+    public Journal getJournal(String selectedJournal) {
+        for(Journal journal : journals.values()) {
+            if(journal.getName().equals(selectedJournal))
+                return journal;
+        }
+        return null;
+    }
 }
