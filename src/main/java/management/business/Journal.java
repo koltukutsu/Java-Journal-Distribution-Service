@@ -1,8 +1,10 @@
 package management.business;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Journal {
+public class Journal implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String name;
     private String issn;
     private int frequency;

@@ -1,6 +1,9 @@
 package management.business;
 
-public class DateInfo {
+import java.io.Serializable;
+
+public class DateInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int startMonth;
     private int endMonth;
     private int startYear;

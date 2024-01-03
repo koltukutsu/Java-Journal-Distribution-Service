@@ -1,7 +1,5 @@
 package management.business;
 
-import management.gui.observers.JournalObserver;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,7 +10,6 @@ import java.util.Vector;
 
 public class Distributor implements Serializable {
     private static final long serialVersionUID = 1L;
-    private List<JournalObserver> journalObservers = new ArrayList<>();
 
     private Hashtable<String, Journal> journals;
     private Vector<Subscriber> subscribers;
@@ -20,16 +17,6 @@ public class Distributor implements Serializable {
     public Distributor() {
         this.journals = new Hashtable<String, Journal>();
         this.subscribers = new Vector<Subscriber>();
-    }
-
-    public void addObserver(JournalObserver observer) {
-        journalObservers.add(observer);
-    }
-
-    private void notifyJournalObservers() {
-        for (JournalObserver observer : journalObservers) {
-            observer.updateJournals();
-        }
     }
 
     public boolean addJournal(Journal journal) {
@@ -267,9 +254,9 @@ public class Distributor implements Serializable {
             ObjectInputStream reader = new ObjectInputStream(
                     new FileInputStream( fileName ) );
             Distributor loadedDistributor = (Distributor) reader.readObject();
+
             this.journals = loadedDistributor.journals;
             this.subscribers = loadedDistributor.subscribers;
-            this.journalObservers = loadedDistributor.journalObservers;
             reader.close();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);

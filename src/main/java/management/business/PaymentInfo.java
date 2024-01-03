@@ -1,6 +1,9 @@
 package management.business;
 
-public class PaymentInfo {
+import java.io.Serializable;
+
+public class PaymentInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final double discountRatio;
     private double receivedPayment;
 

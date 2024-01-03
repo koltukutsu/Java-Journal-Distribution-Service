@@ -1,6 +1,7 @@
 package management.business;
 
 public class Individual extends Subscriber{
+    private static final long serialVersionUID = 1L;
     private String creditCardNr;
     private int expireMonth;
     private int expireYear;

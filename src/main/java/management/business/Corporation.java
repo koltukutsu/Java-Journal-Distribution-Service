@@ -1,7 +1,9 @@
 package management.business;
 
-public class Corporation extends Subscriber{
+import java.io.Serializable;
 
+public class Corporation extends Subscriber {
+    private static final long serialVersionUID = 1L;
     private int bankCode;
     private String bankName;
     private int issueDay;

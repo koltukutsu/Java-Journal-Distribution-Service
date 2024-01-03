@@ -32,9 +32,9 @@ public class JournalManagementSystem {
 
         // Left Column
         JPanel leftPanel = new JPanel(new GridLayout(3, 1));
-        journalsLabel = new JLabel("Journals: " + distributor.getJournalsSize());
-        subscribersLabel = new JLabel("Subscribers: " + distributor.getSubscribersSize());
-        subscriptionsLabel = new JLabel("Subscriptions: " + distributor.getSubscriptionsSize());
+        journalsLabel = new JLabel("Journals: 0" );
+        subscribersLabel = new JLabel("Subscribers: 0");
+        subscriptionsLabel = new JLabel("Subscriptions: 0");
         leftPanel.add(journalsLabel);
         leftPanel.add(subscribersLabel);
         leftPanel.add(subscriptionsLabel);
@@ -138,6 +138,9 @@ public class JournalManagementSystem {
         if(file.exists()) {
             System.out.println("Loading State from saved state, ");
             distributor.loadState(stateFileName);
+            updateJournals();
+            updateSubscribers();
+            updateSubscriptions();
         }
         else {
             System.out.println("Fresh Start");

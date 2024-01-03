@@ -1,6 +1,10 @@
 package management.business;
 
-public class Subscription {
+import java.io.Serializable;
+
+public class Subscription implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final DateInfo dates;
     private PaymentInfo payment;
     private int copies;
