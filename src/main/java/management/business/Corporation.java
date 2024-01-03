@@ -1,6 +1,6 @@
 package management.business;
 
-public class Coorporation extends Subscriber{
+public class Corporation extends Subscriber{
 
     private int bankCode;
     private String bankName;
@@ -9,12 +9,13 @@ public class Coorporation extends Subscriber{
     private int issueYear;
     private int accountNumber;
 
-    public Coorporation(String name, String address) {
+    public Corporation(String name, String address) {
         super(name, address);
     }
 
     @Override
     public String getBillingInformation() {
-        return null;
+
+        return "";
     }
 }

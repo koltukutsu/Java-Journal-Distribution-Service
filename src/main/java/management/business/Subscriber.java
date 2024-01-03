@@ -14,4 +14,8 @@ public abstract class Subscriber {
     public String getName() {
         return name;
     }
+
+    public String getAddress() {
+        return address;
+    }
 }

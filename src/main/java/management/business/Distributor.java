@@ -47,11 +47,13 @@ public class Distributor {
                 subscription.increaseCoppies();
                 return true;
             } else {
+                addSubscriber(subscription.getSubscriber());
+                // TODO: get the amount of coppies from the user
+                subscription.increaseCoppies();
                 return false;
             }
         }
         else {
-
             return false;
         }
 

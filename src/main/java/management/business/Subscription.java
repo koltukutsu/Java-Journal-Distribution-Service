@@ -15,35 +15,45 @@ public class Subscription {
     }
 
     public void acceptPayment(double amount) {
-        if(payment == null) {
+        if (payment == null) {
             payment = new PaymentInfo();
+            payment.increasePayment(amount);
         } else {
             payment.increasePayment(amount);
         }
 
     }
 
-    public boolean canSend(int issueMonth){
-        if(payment == null) {
+    public boolean canSend(int issueMonth) {
+        if (payment == null) {
             return false;
-        }
-        double receivedPayment = payment.getReceivedPayment();
-        double issuePrice = journal.getIssuePrice();
-        // whether the subscriber is a corporation or an individual
-        if(subscriber instanceof Coorporation) {
-            double discountRatio = payment.getDiscountRatio();
-            double amount = (issuePrice * discountRatio) * copies;
-            if(receivedPayment < amount) {
-                // TODO: do i need to decrease the amount of the payment
-                return false;
+        } else {
+            double receivedPayment = payment.getReceivedPayment();
+            double issuePrice = journal.getIssuePrice();
+            // whether the subscriber is a corporation or an individual
+            if (subscriber instanceof Corporation) {
+                double discountRatio = payment.getDiscountRatio();
+                double amount = (issuePrice * discountRatio) * copies;
+                System.out.println("amount to pay: " + amount);
+                System.out.println("receivedPayment: " + receivedPayment);
+                if (receivedPayment < amount) {
+                    // TODO: do i need to decrease the amount of the payment
+                    return false;
+                } else {
+                    return issueMonth >= dates.getStartMonth();
+                }
+            // (subscriber instanceof Individual)
+            } else {
+                double amount = issuePrice * copies;
+                System.out.println("amount to pay: " + amount);
+                System.out.println("receivedPayment: " + receivedPayment);
+                if (receivedPayment < amount) {
+                    return false;
+                } else {
+                    return issueMonth >= dates.getStartMonth();
+                }
             }
-        } else if(subscriber instanceof Individual) {
-            double amount = issuePrice * copies;
-            if(receivedPayment < amount) {
-                return false;
-            }
         }
-        return true;
     }
 
     public Subscriber getSubscriber() {
@@ -52,5 +62,9 @@ public class Subscription {
 
     public void increaseCoppies() {
         this.copies++;
+    }
+
+    public int getCopies() {
+        return copies;
     }
 }
