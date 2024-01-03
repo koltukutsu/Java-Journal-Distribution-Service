@@ -1,8 +1,6 @@
 package management.business;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -269,7 +267,10 @@ public class Distributor implements Serializable {
 //        }
     }
 
-    public void report() {
+    public void report(int month, int year, int yearRange) {
+        // expired subscription -> month and year to be used
+
+        // incomplete payments -> only yearRange to be used
 
     }
 

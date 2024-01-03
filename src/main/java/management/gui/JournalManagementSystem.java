@@ -53,6 +53,7 @@ public class JournalManagementSystem {
 
         // Buttons below text columns
         // Buttons below text columns
+        JButton takeReportButton = new JButton("Take Report");
         JButton addJournalButton = new JButton("Add a Journal");
         JButton addSubscriberButton = new JButton("Add a Subscriber");
         JButton addSubscriptionButton = new JButton("Add a Subscription");
@@ -107,9 +108,17 @@ public class JournalManagementSystem {
             }
         });
 
+        takeReportButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Code to open the Show Subscriptions page
+                new TakeReportPage(getDistributor());
+            }
+        });
+
         // Add buttons below text columns to the main frame
         // add a filler / blank space
-        mainFrame.add(new JLabel(""));
+        mainFrame.add(takeReportButton);
         mainFrame.add(addJournalButton);
         mainFrame.add(addSubscriberButton);
         mainFrame.add(addSubscriptionButton);
