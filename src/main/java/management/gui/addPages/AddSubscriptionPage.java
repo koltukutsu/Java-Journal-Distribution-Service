@@ -76,6 +76,7 @@ public class AddSubscriptionPage {
                 System.out.println("Result: " + result);
                 JOptionPane.showMessageDialog(addSubscriptionFrame, "Subscription added successfully!");
                 subscriptionObserver.updateSubscriptions();
+                distributor.saveState(distributor.getFilePathForState());
             } catch (Exception exception) {
                 JOptionPane.showMessageDialog(addSubscriptionFrame, "Error while adding subscription: " + exception.getMessage());
             }

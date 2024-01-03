@@ -59,6 +59,7 @@ public class AddSubscriberPage {
 
         // Observer update
         subscriberObserver.updateSubscribers();
+        distributor.saveState(distributor.getFilePathForState());
 
         addSubscriberFrame.pack(); // Fit the window to the components
         addSubscriberFrame.setLocationRelativeTo(null); // Center the window

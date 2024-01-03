@@ -36,10 +36,11 @@ public class AddJournalPage {
                     // Perform necessary actions with the input data (e.g., save to a data structure or database)
                     Journal journal = new Journal(nameField.getText(), issnField.getText(), Integer.parseInt(frequencyField.getText()), Integer.parseInt(issuePriceField.getText()));
                     boolean isAdded = distributor.addJournal(journal);
-                    if(isAdded) {
+                    if (isAdded) {
                         JOptionPane.showMessageDialog(addJournalFrame, "Journal added successfully!");
                         journalObserver.updateJournals();
-                    }else {
+                        distributor.saveState(distributor.getFilePathForState());
+                    } else {
                         JOptionPane.showMessageDialog(addJournalFrame, "Journal ISSN is already signed, cannot add Journal!");
                     }
                     addJournalFrame.dispose(); // Close the Add main.Journal page

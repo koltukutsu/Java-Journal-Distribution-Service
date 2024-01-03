@@ -129,7 +129,7 @@ public class JournalManagementSystem {
         mainFrame.setVisible(true);
 
 
-        final String stateFileName = "./JournalManagementSystemState.dat";
+        final String stateFileName = distributor.getFilePathForState();
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

@@ -281,4 +281,8 @@ public class Distributor implements Serializable {
         }
         return null;
     }
+
+    public String getFilePathForState() {
+        return "./JournalManagementSystemState.dat";
+    }
 }
