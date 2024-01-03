@@ -12,8 +12,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
 
-public class JournalManagementSystem implements Runnable {
+public class JournalManagementSystem {
     private JFrame mainFrame;
     private Distributor distributor;
     private JLabel journalsLabel;
@@ -116,8 +119,43 @@ public class JournalManagementSystem implements Runnable {
         mainFrame.setMinimumSize(new Dimension(600, 400));
         mainFrame.setVisible(true);
 
+
+        final String stateFileName = "./JournalManagementSystemState.dat";
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Save state when the window is closing
+                System.out.println("Creating the state object in " + stateFileName);
+                distributor.saveState(stateFileName);
+                System.exit(0);
+            }
+        });
+
+        // Load state when the application starts
+        // and control whether the dat file is present or not?
+
+        File file = new File(stateFileName);
+        if(file.exists()) {
+            System.out.println("Loading State from saved state, ");
+            distributor.loadState(stateFileName);
+        }
+        else {
+            System.out.println("Fresh Start");
+        }
+
+    }
+    public void updateJournals() {
+        // Update the label displaying the number of journals
+        journalsLabel.setText("Journals: " + distributor.getJournalsSize());
     }
 
+    public void updateSubscribers() {
+        subscribersLabel.setText("Subscribers: " + distributor.getSubscribersSize());
+    }
+
+    public void updateSubscriptions() {
+        subscriptionsLabel.setText("Subscriptions: " + distributor.getSubscriptionsSize());
+    }
     public Distributor getDistributor() {
         return distributor;
     }
@@ -131,25 +169,6 @@ public class JournalManagementSystem implements Runnable {
                 new JournalManagementSystem();
             }
         });
-    }
-
-    @Override
-    public void run() {
-
-    }
-
-
-    public void updateJournals() {
-        // Update the label displaying the number of journals
-        journalsLabel.setText("Journals: " + distributor.getJournalsSize());
-    }
-
-    public void updateSubscribers() {
-        subscribersLabel.setText("Subscribers: " + distributor.getSubscribersSize());
-    }
-
-    public void updateSubscriptions() {
-        subscriptionsLabel.setText("Subscriptions: " + distributor.getSubscriptionsSize());
     }
 
 }

@@ -42,7 +42,7 @@ public class Subscription {
                 } else {
                     return issueMonth >= dates.getStartMonth();
                 }
-            // (subscriber instanceof Individual)
+                // (subscriber instanceof Individual)
             } else {
                 double amount = issuePrice * copies;
                 System.out.println("amount to pay: " + amount);
@@ -80,4 +80,17 @@ public class Subscription {
                 "Can Send: " + this.canSend(1) + "\n";
     }
 
+    public String[] getSubscriptionInformationStringArray() {
+        String[] stringArray = new String[8];
+        stringArray[0] = "Date: " + dates.getStartMonth() + " - " + dates.getEndMonth() + " - " + dates.getStartYear();
+        stringArray[1] = "Copies: " + copies;
+        stringArray[2] = "Journal: " + journal.getName();
+        stringArray[3] = "Subscriber: " + subscriber.getName();
+        stringArray[4] = "Payment: " + payment.getReceivedPayment();
+        stringArray[5] = "Discount: " + payment.getDiscountRatio();
+        stringArray[6] = "Issue Price: " + journal.getIssuePrice();
+        stringArray[7] = "Total Price: " + (journal.getIssuePrice() * copies);
+//        stringArray[8] = "Can Send: " + this.canSend(1);
+        return stringArray;
+    }
 }

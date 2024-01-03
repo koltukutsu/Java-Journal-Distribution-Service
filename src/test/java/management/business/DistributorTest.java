@@ -2,10 +2,15 @@ package management.business;
 
 import junit.framework.TestCase;
 
+import java.io.File;
+
 public class DistributorTest extends TestCase {
+    private Distributor distributor;
+    private Journal journal;
     public void setUp() throws Exception {
 //        super.setUp();
-
+        distributor = new Distributor();
+        journal = new Journal("Semih Daily", "55500123", 12, 10);
     }
     public void testAddJournal() {
     }
@@ -35,9 +40,25 @@ public class DistributorTest extends TestCase {
     }
 
     public void testSaveState() {
+        String fileName = "./currentState.dat";
+        distributor.addJournal(journal);
+        distributor.saveState(fileName);
+        File file = new File(fileName);
+        boolean isCreated = file.exists();
+        assertTrue(isCreated);
     }
 
     public void testLoadState() {
+        String fileName = "./currentState.dat";
+        distributor.loadState(fileName);
+        String journalIssn = journal.getIssn();
+        Journal foundJournal = distributor.searchJournal(journalIssn);
+        System.out.println("Expected: " + foundJournal.getJournalInformation());
+        System.out.println("Actual: " + journal.getJournalInformation());
+        assertEquals(foundJournal, journal);
+        File file = new File(fileName);
+        boolean isDeleted = file.delete();
+        assertTrue(isDeleted);
     }
 
     public void testReport() {

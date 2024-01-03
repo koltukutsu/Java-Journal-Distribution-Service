@@ -10,9 +10,14 @@ public class ShowJournalsPage {
     public ShowJournalsPage(Distributor distributor) {
         String[] columnNames = {"ISSN", "Frequency", "Journal Name", "Issue Price"};
 
-        Object[][] data = distributor.getJournalsData(); // Assuming getJournalsData returns a 2D array of journal data
+        Object[][] data = distributor.getJournalsDataArray(); // Assuming getJournalsData returns a 2D array of journal data
 
-        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         JTable jTable = new JTable(tableModel);
 
         JScrollPane scrollPane = new JScrollPane(jTable);

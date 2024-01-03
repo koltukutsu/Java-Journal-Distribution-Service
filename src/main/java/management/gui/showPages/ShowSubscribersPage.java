@@ -3,24 +3,27 @@ package management.gui.showPages;
 import management.business.Distributor;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class ShowSubscribersPage {
     public ShowSubscribersPage(Distributor distributor) {
-        // Code to retrieve and display subscriber information
-        StringBuilder subscribersInfo = new StringBuilder();
-        String[] subscribers = distributor.getSubscribersInformation();
+        String[] columnNames = {"Type", "Name", "Address"};
 
-        for(String subscriber : subscribers) {
-            subscribersInfo.append(subscriber).append("\n");
-        }
+        Object[][] data = distributor.getSubscribersInformationArray();
 
-        JTextArea textArea = new JTextArea(subscribersInfo.toString());
-        textArea.setEditable(false);
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        JTable jTable = new JTable(tableModel);
 
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(400, 300));
+        JScrollPane scrollPane = new JScrollPane(jTable);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
 
         JOptionPane.showMessageDialog(null, scrollPane, "Subscribers Information", JOptionPane.INFORMATION_MESSAGE);
+
     }
 }

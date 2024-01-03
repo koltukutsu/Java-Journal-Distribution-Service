@@ -2,12 +2,16 @@ package management.business;
 
 import management.gui.observers.JournalObserver;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
-public class Distributor {
+public class Distributor implements Serializable {
+    private static final long serialVersionUID = 1L;
     private List<JournalObserver> journalObservers = new ArrayList<>();
 
     private Hashtable<String, Journal> journals;
@@ -17,6 +21,7 @@ public class Distributor {
         this.journals = new Hashtable<String, Journal>();
         this.subscribers = new Vector<Subscriber>();
     }
+
     public void addObserver(JournalObserver observer) {
         journalObservers.add(observer);
     }
@@ -30,8 +35,7 @@ public class Distributor {
     public boolean addJournal(Journal journal) {
         if (journals.containsKey(journal.getIssn())) {
             return false;
-        }
-        else {
+        } else {
             journals.put(journal.getIssn(), journal);
             return true;
         }
@@ -106,19 +110,6 @@ public class Distributor {
 //        }
     }
 
-    public void saveState(String fileName) {
-        // do state saving of the distributor object with multithreading
-
-    }
-
-    public void loadState(String fileName) {
-        // load state of the distributor object with multithreading
-
-    }
-
-    public void report() {
-
-    }
 
     public String hello() {
         return "hello";
@@ -142,7 +133,7 @@ public class Distributor {
         return subscriptionsAmount;
     }
 
-    public Object[][] getJournalsData() {
+    public Object[][] getJournalsDataArray() {
         if (journals.isEmpty()) {
             // Return a 2D array with a single row indicating no journals are added yet
             return new Object[][]{{"No journals are added yet!", "", "", ""}};
@@ -162,6 +153,52 @@ public class Distributor {
         }
     }
 
+    public Object[][] getSubscribersInformationArray() {
+        if (subscribers.isEmpty()) {
+            // Return a 2D array with a single row indicating no journals are added yet
+            return new Object[][]{{"No subscribers are added yet!", "", "", ""}};
+        } else {
+            Object[][] subscribersData = new Object[subscribers.size()][3]; // Assuming you have 4 columns
+
+            int counter = 0;
+            for (Subscriber subscriber : subscribers) {
+                if (subscriber instanceof Corporation) {
+
+                    subscribersData[counter][0] = "Corporation";
+                } else {
+                    subscribersData[counter][0] = "Individual";
+
+                }
+                subscribersData[counter][1] = subscriber.getName();
+                subscribersData[counter][2] = subscriber.getAddress();
+                counter++;
+            }
+            return subscribersData;
+        }
+    }
+
+    public Object[][] getSubscriptionsInformationArray() {
+        if (journals.isEmpty()) {
+            // Return a 2D array with a single row indicating no journals are added yet
+            return new Object[][]{{"No subscriptions are added yet!", "", "", ""}};
+        } else {
+            int sizeOfJournalSubscriptions = 0;
+            for (Journal journal : journals.values()) {
+                sizeOfJournalSubscriptions += journal.getSubscriptions().size();
+            }
+
+            String[][] subscriptionsArray = new String[sizeOfJournalSubscriptions][8];
+
+            int counter = 0;
+            for (Journal journal : journals.values()) {
+                for (Subscription subscription : journal.getSubscriptions()) {
+                    subscriptionsArray[counter] = subscription.getSubscriptionInformationStringArray();
+                    counter++;
+                }
+            }
+            return subscriptionsArray;
+        }
+    }
 
     public String[] getSubscribersInformation() {
         if (subscribers.isEmpty()) {
@@ -199,6 +236,58 @@ public class Distributor {
             }
             return subscriptionsArray;
         }
+    }
+
+    public void saveState(String fileName) {
+        try {
+            ObjectOutputStream writer = new ObjectOutputStream(
+                    new FileOutputStream( fileName ) );
+            writer.writeObject( this );
+            writer.close();
+            System.out.println("The information you have entered has "
+                    + "been successfully saved in file " + fileName);
+        }
+        catch( IOException e ) {
+            System.out.println("An exception has occured during "
+                    + "writing to file.");
+            e.printStackTrace();
+        }
+//
+//        return;
+//        try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(fileName)))) {
+//            oos.writeObject(this);
+//            System.out.println("State saved successfully.");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public void loadState(String fileName) {
+        try {
+            ObjectInputStream reader = new ObjectInputStream(
+                    new FileInputStream( fileName ) );
+            Distributor loadedDistributor = (Distributor) reader.readObject();
+            this.journals = loadedDistributor.journals;
+            this.subscribers = loadedDistributor.subscribers;
+            this.journalObservers = loadedDistributor.journalObservers;
+            reader.close();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+//        try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(Paths.get(fileName)))) {
+//            Distributor loadedDistributor = (Distributor) ois.readObject();
+//            // Copy the state to the current object
+//            this.journals = loadedDistributor.journals;
+//            this.subscribers = loadedDistributor.subscribers;
+//            this.journalObservers = loadedDistributor.journalObservers;
+//            System.out.println("State loaded successfully.");
+//        } catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public void report() {
+
     }
 
 }
