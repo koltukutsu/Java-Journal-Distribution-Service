@@ -1,10 +1,15 @@
 package management.business;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
+import javax.swing.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 public class Distributor implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -298,10 +303,76 @@ public class Distributor implements Serializable {
 //        }
     }
 
-    public void report(int month, int year, int yearRange) {
+    public void report(int queryMonth, int queryYear, int yearRange) {
         // expired subscription -> month and year to be used
 
         // incomplete payments -> only yearRange to be used
+
+        new Thread(() -> {
+            // Logic to find subscriptions expiring after thresholdDate
+            // Logic to calculate payments received between startYear and endYear
+            HashMap<Integer, Double> payments = new HashMap<Integer, Double>();
+            Vector<String> subscriptions = new Vector<String>();
+            for(Journal journal : journals.values()){
+                for(Subscription subscription : journal.getSubscriptions()) {
+                    DateInfo subscriptionDate = subscription.getDates();
+                    int startYear = subscriptionDate.getStartYear();
+                    int startMonth = subscriptionDate.getStartMonth();
+                    int endMonth = subscriptionDate.getEndMonth();
+                    int endYear = subscriptionDate.getEndYear();
+                    // for the 1.part
+                    if(queryYear > endYear){
+                        subscriptions.add(subscription.getSubscriptionInformation());
+                    } else {
+                        if(queryYear == endYear){
+                            if(queryMonth > endMonth){
+                                subscriptions.add(subscription.getSubscriptionInformation());
+                            }
+                        }
+                    }
+                    // for the 2. part
+                    double receivedPayment = subscription.getPayment().getReceivedPayment();
+                    if(payments.containsKey(startYear)){
+                        payments.put(startYear, payments.get(startYear) + receivedPayment);
+                    } else{
+                        payments.put(startYear, receivedPayment);
+                    }
+                }
+            }
+            // 1. logic
+
+            // 2. logic: save hash as a chart which shows based on year
+            TreeMap<Integer, Double> sortedPayments = new TreeMap<>(payments);
+            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+            for (Map.Entry<Integer, Double> entry : sortedPayments.entrySet()) {
+                dataset.addValue(entry.getValue(), "Payments", entry.getKey());
+            }
+
+            JFreeChart barChart = ChartFactory.createBarChart(
+                    "Annual Payments",
+                    "Year",
+                    "Payment",
+                    dataset,
+                    PlotOrientation.VERTICAL,
+                    true, true, false);
+
+            // Save the chart as a PNG file
+            File file = new File("secondChoice.png");
+            try {
+                ChartUtilities.saveChartAsPNG(file, barChart, 560, 367);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            SwingUtilities.invokeLater(() -> {
+                ChartPanel chartPanel = new ChartPanel(barChart);
+                chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
+                JFrame chartFrame = new JFrame();
+                chartFrame.add(chartPanel);
+                chartFrame.pack();
+                chartFrame.setVisible(true);
+            });
+            // Output the report - This can be displayed on the GUI or saved to a file
+        }).start();
 
     }
 
@@ -316,4 +387,5 @@ public class Distributor implements Serializable {
     public String getFilePathForState() {
         return "./JournalManagementSystemState.dat";
     }
+
 }

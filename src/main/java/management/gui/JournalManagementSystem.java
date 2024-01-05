@@ -28,7 +28,7 @@ public class JournalManagementSystem {
     public JournalManagementSystem() {
         this.distributor = new Distributor();
 
-        mainFrame = new JFrame("main.Journal Management System");
+        mainFrame = new JFrame("Journal Management System");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLayout(new GridLayout(2, 2));
 

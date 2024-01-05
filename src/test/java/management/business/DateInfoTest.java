@@ -21,6 +21,6 @@ public class DateInfoTest extends TestCase {
     }
 
     public void testGetEndYear() {
-        assertEquals(2024, dateInfo.getEndYear());
+        assertEquals(2023, dateInfo.getEndYear());
     }
 }

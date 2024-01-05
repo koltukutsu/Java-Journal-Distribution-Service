@@ -27,6 +27,8 @@ public class DateInfo implements Serializable {
     }
 
     public int getEndYear() {
+        if(startMonth == 1)
+            return startYear;
         return startYear + 1;
     }
 }

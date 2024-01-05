@@ -106,9 +106,13 @@ public class TakePaymentPage {
             int paymentTaken = Integer.parseInt(paymentInput.getText());
             if(requiredTotalPayment > paymentTaken){
                 JOptionPane.showMessageDialog(takePaymentFrame, "Payment is not enough", "Input Error", JOptionPane.ERROR_MESSAGE);
+                distributor.saveState(distributor.getFilePathForState());
                 return;
             } else{
+                // approve the user that it is taken wihtout any error
+                JOptionPane.showMessageDialog(takePaymentFrame, "Payment is taken", "Payment Taken", JOptionPane.INFORMATION_MESSAGE);
                 finalSubscription.acceptPayment(paymentTaken);
+                distributor.saveState(distributor.getFilePathForState());
             }
 
             takePaymentFrame.dispose(); // Close the Add Subscription page

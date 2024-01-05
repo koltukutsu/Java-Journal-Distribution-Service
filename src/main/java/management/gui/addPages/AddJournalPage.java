@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class AddJournalPage {
     public AddJournalPage(Distributor distributor, JournalManagementSystem journalObserver) {
-        JFrame addJournalFrame = new JFrame("Add main.Journal");
+        JFrame addJournalFrame = new JFrame("Add Journal");
         addJournalFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel(new GridLayout(5, 2));
