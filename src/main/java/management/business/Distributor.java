@@ -58,7 +58,7 @@ public class Distributor implements Serializable {
             String subscriberName = subscription.getSubscriber().getName();
             boolean isContains = false;
 
-            for(Subscription sub : subscriptions) {
+            for (Subscription sub : subscriptions) {
                 if (sub.getSubscriber().getName().equals(subscriberName)) {
                     isContains = true;
                     break;
@@ -82,26 +82,56 @@ public class Distributor implements Serializable {
         journals.forEach((issn, journal) -> {
             this.listSendingOrders(journal.getIssn(), month, year);
         });
-
     }
 
     public void listSendingOrders(String issn, int month, int year) {
+        Journal journal = journals.get(issn);
+        if (journal == null) {
+            System.out.println("Journal with ISSN " + issn + " not found.");
+            return;
+        }
 
+        System.out.println("Sending orders for Journal: " + journal.getJournalName() + " (ISSN: " + issn + ") for " + month + "/" + year);
+        for (Subscription subscription : journal.getSubscriptions()) {
+            // Check if the year matches the subscription's year
+            if (subscription.getDates().getStartYear() <= year && subscription.getDates().getEndYear() >= year) {
+                if (subscription.canSend(month)) {
+                    System.out.println("Send to: " + subscription.getSubscriber().getName());
+                } else {
+                    System.out.println("Payment incomplete for: " + subscription.getSubscriber().getName());
+                }
+            }
+        }
     }
 
-    public void listlncompletePayments() {
 
+    public void listIncompletePayments() {
+        System.out.println("Incomplete Payments:");
+
+        for (Journal journal : journals.values()) {
+            final double journalPrice = journal.getIssuePrice();
+            for (Subscription subscription : journal.getSubscriptions()) {
+                // Check if the received payment is less than the required payment amount
+                final double requiredPaymentAmount = ((1 - subscription.getPayment().getDiscountRatio()) * journalPrice) * subscription.getCopies();
+                if (subscription.getPayment().getReceivedPayment() < requiredPaymentAmount) {
+                    System.out.println("Journal: " + journal.getJournalName() +
+                            " (ISSN: " + journal.getIssn() +
+                            "), Subscriber: " + subscription.getSubscriber().getName() +
+                            ", Received Payment: " + subscription.getPayment().getReceivedPayment());
+                }
+            }
+        }
     }
+
 
     public void listSubscriptions(String subscriberName) {
-
-//        Subscriber sub = subscribers.get(0);
-//        // whether sub a corporation or an individual
-//        if(sub instanceof Corporation) {
-//            System.out.println("Corporation");
-//        } else {
-//            System.out.println("Individual");
-//        }
+        for (Journal jn : journals.values()) {
+            for (Subscription sb : jn.getSubscriptions()) {
+                if (sb.getSubscriber().getName().equals(subscriberName)) {
+                    System.out.println(sb.getSubscriptionInformation());
+                }
+            }
+        }
     }
 
 
@@ -190,6 +220,7 @@ public class Distributor implements Serializable {
             return subscriptionsArray;
         }
     }
+
     public String[] getJournalsNames() {
         String[] journalsNames = new String[journals.size()];
         int counter = 0;
@@ -199,6 +230,7 @@ public class Distributor implements Serializable {
         }
         return journalsNames;
     }
+
     public String[] getIndividualsNames() {
         List<String> individualsNames = new ArrayList<String>();
         for (Subscriber subscriber : subscribers) {
@@ -222,13 +254,12 @@ public class Distributor implements Serializable {
     public synchronized void saveState(String fileName) {
         try {
             ObjectOutputStream writer = new ObjectOutputStream(
-                    new FileOutputStream( fileName ) );
-            writer.writeObject( this );
+                    new FileOutputStream(fileName));
+            writer.writeObject(this);
             writer.close();
             System.out.println("The information you have entered has "
                     + "been successfully saved in file " + fileName);
-        }
-        catch( IOException e ) {
+        } catch (IOException e) {
             System.out.println("An exception has occured during "
                     + "writing to file.");
             e.printStackTrace();
@@ -246,7 +277,7 @@ public class Distributor implements Serializable {
     public synchronized void loadState(String fileName) {
         try {
             ObjectInputStream reader = new ObjectInputStream(
-                    new FileInputStream( fileName ) );
+                    new FileInputStream(fileName));
             Distributor loadedDistributor = (Distributor) reader.readObject();
 
             this.journals = loadedDistributor.journals;
@@ -275,8 +306,8 @@ public class Distributor implements Serializable {
     }
 
     public Journal getJournal(String selectedJournal) {
-        for(Journal journal : journals.values()) {
-            if(journal.getName().equals(selectedJournal))
+        for (Journal journal : journals.values()) {
+            if (journal.getName().equals(selectedJournal))
                 return journal;
         }
         return null;

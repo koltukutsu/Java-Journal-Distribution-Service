@@ -1,4 +1,4 @@
-package management.gui;
+package management.gui.takePages;
 
 import management.business.Distributor;
 

@@ -7,6 +7,8 @@ import management.gui.addPages.AddSubscriptionPage;
 import management.gui.showPages.ShowJournalsPage;
 import management.gui.showPages.ShowSubscribersPage;
 import management.gui.showPages.ShowSubscriptionsPage;
+import management.gui.takePages.TakePaymentPage;
+import management.gui.takePages.TakeReportPage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,7 +55,12 @@ public class JournalManagementSystem {
 
         // Buttons below text columns
         // Buttons below text columns
+        JPanel payAndReportPanel = new JPanel(new GridLayout(2, 1));
         JButton takeReportButton = new JButton("Take Report");
+        JButton takePaymentButton = new JButton("Take Payment");
+        payAndReportPanel.add(takeReportButton);
+        payAndReportPanel.add(takePaymentButton);
+
         JButton addJournalButton = new JButton("Add a Journal");
         JButton addSubscriberButton = new JButton("Add a Subscriber");
         JButton addSubscriptionButton = new JButton("Add a Subscription");
@@ -115,10 +122,16 @@ public class JournalManagementSystem {
                 new TakeReportPage(getDistributor());
             }
         });
-
+        takePaymentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Code to open the Show Subscriptions page
+                new TakePaymentPage(getDistributor());
+            }
+        });
         // Add buttons below text columns to the main frame
         // add a filler / blank space
-        mainFrame.add(takeReportButton);
+        mainFrame.add(payAndReportPanel);
         mainFrame.add(addJournalButton);
         mainFrame.add(addSubscriberButton);
         mainFrame.add(addSubscriptionButton);

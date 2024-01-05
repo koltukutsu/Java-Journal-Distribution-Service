@@ -32,6 +32,26 @@ public class Subscription implements Serializable {
 
     }
 
+//    public boolean canSend(int issueMonth) {
+//        if (payment == null) {
+//            return false;
+//        } else {
+//            double receivedPayment = payment.getReceivedPayment();
+//            double issuePrice = journal.getIssuePrice();
+//            int monthsPaidFor = (int) (receivedPayment / (issuePrice * copies));
+//            int startMonth = dates.getStartMonth();
+//            int endMonth = startMonth + monthsPaidFor - 1; // Assuming each subscription is for a single year
+//
+//            if (subscriber instanceof Corporation) {
+//                double discountRatio = payment.getDiscountRatio();
+//                issuePrice *= discountRatio;
+//            }
+//
+//            // Check if the issueMonth falls within the range of paid months
+//            return issueMonth >= startMonth && issueMonth <= endMonth;
+//        }
+//    }
+
     public boolean canSend(int issueMonth) {
         if (payment == null) {
             return false;
@@ -39,28 +59,28 @@ public class Subscription implements Serializable {
             double receivedPayment = payment.getReceivedPayment();
             double issuePrice = journal.getIssuePrice();
             // whether the subscriber is a corporation or an individual
-            if (subscriber instanceof Corporation) {
-                double discountRatio = payment.getDiscountRatio();
-                double amount = (issuePrice * discountRatio) * copies;
-                System.out.println("amount to pay: " + amount);
-                System.out.println("receivedPayment: " + receivedPayment);
-                if (receivedPayment < amount) {
-                    // TODO: do i need to decrease the amount of the payment
-                    return false;
-                } else {
-                    return issueMonth >= dates.getStartMonth();
-                }
-                // (subscriber instanceof Individual)
+//            if (subscriber instanceof Corporation) {
+            double discountRatio = payment.getDiscountRatio();
+            double amount = (issuePrice * (1 - discountRatio)) * copies;
+            System.out.println("amount to pay: " + amount);
+            System.out.println("receivedPayment: " + receivedPayment);
+            if (receivedPayment < amount) {
+                // TODO: do i need to decrease the amount of the payment
+                return false;
             } else {
-                double amount = issuePrice * copies;
-                System.out.println("amount to pay: " + amount);
-                System.out.println("receivedPayment: " + receivedPayment);
-                if (receivedPayment < amount) {
-                    return false;
-                } else {
-                    return issueMonth >= dates.getStartMonth();
-                }
+                return issueMonth >= dates.getStartMonth();
             }
+            // (subscriber instanceof Individual)
+//            } else {
+//                double amount = issuePrice * copies;
+//                System.out.println("amount to pay: " + amount);
+//                System.out.println("receivedPayment: " + receivedPayment);
+//                if (receivedPayment < amount) {
+//                    return false;
+//                } else {
+//                    return issueMonth >= dates.getStartMonth();
+//                }
+//            }
         }
     }
 
@@ -105,4 +125,13 @@ public class Subscription implements Serializable {
 //        stringArray[8] = "Can Send: " + this.canSend(1);
         return stringArray;
     }
+
+    public DateInfo getDates() {
+        return dates;
+    }
+
+    public PaymentInfo getPayment() {
+        return payment;
+    }
+
 }
