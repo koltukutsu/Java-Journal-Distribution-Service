@@ -3,14 +3,14 @@ package management.gui.addPages;
 import management.business.DateInfo;
 import management.business.Distributor;
 import management.business.Subscription;
-import management.gui.JournalManagementSystem;
+import management.gui.Main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class AddSubscriptionPage {
-    public AddSubscriptionPage(Distributor distributor, JournalManagementSystem subscriptionObserver) {
+    public AddSubscriptionPage(Distributor distributor, Main subscriptionObserver) {
         JFrame addSubscriptionFrame = new JFrame("Add a Subscription");
         addSubscriptionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addSubscriptionFrame.setLayout(new BorderLayout()); // Use BorderLayout for the frame

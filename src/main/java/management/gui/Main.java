@@ -18,14 +18,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 
-public class JournalManagementSystem {
+public class Main {
     private JFrame mainFrame;
     private Distributor distributor;
     private JLabel journalsLabel;
     private JLabel subscribersLabel;
     private JLabel subscriptionsLabel;
 
-    public JournalManagementSystem() {
+    public Main() {
         this.distributor = new Distributor();
 
         mainFrame = new JFrame("Journal Management System");
@@ -67,7 +67,7 @@ public class JournalManagementSystem {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Code to open the Add main.Journal page
-                new AddJournalPage(distributor, JournalManagementSystem.this);
+                new AddJournalPage(distributor, Main.this);
             }
         });
 
@@ -75,7 +75,7 @@ public class JournalManagementSystem {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Code to open the Add main.Subscriber page
-                new AddSubscriberPage(distributor, JournalManagementSystem.this);
+                new AddSubscriberPage(distributor, Main.this);
             }
         });
 
@@ -83,7 +83,7 @@ public class JournalManagementSystem {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Code to open the Add main.Subscription page
-                new AddSubscriptionPage(distributor, JournalManagementSystem.this);
+                new AddSubscriptionPage(distributor, Main.this);
             }
         });
 
@@ -186,7 +186,7 @@ public class JournalManagementSystem {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new JournalManagementSystem();
+                new Main();
             }
         });
     }

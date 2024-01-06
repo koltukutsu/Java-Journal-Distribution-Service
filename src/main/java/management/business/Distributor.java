@@ -71,12 +71,12 @@ public class Distributor implements Serializable {
             }
             if (isContains) {
                 System.out.println("Distributor - addSubscription(): Subscription already exists.\n\tIncreasing copies with 1.");
+                subscription.increaseCoppies();
             } else {
                 System.out.println("Distributor - addSubscription(): Subscription added.");
                 journal.addSubscription(subscription);
                 // TODO: get the amount of coppies from the user
             }
-            subscription.increaseCoppies();
             return true;
         } else {
             return false;

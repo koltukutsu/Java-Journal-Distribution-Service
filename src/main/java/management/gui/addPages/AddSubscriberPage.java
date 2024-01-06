@@ -3,13 +3,13 @@ package management.gui.addPages;
 import management.business.Corporation;
 import management.business.Distributor;
 import management.business.Individual;
-import management.gui.JournalManagementSystem;
+import management.gui.Main;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class AddSubscriberPage {
-    public AddSubscriberPage(Distributor distributor, JournalManagementSystem subscriberObserver) {
+    public AddSubscriberPage(Distributor distributor, Main subscriberObserver) {
         JFrame addSubscriberFrame = new JFrame("Add Subscriber");
         addSubscriberFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addSubscriberFrame.setLayout(new BorderLayout()); // Use BorderLayout for the frame
@@ -65,7 +65,7 @@ public class AddSubscriberPage {
         addSubscriberFrame.setVisible(true);
     }
 
-    private void addIndividualFields(JPanel panel, Distributor distributor, JTextField nameField, JTextField addressField, JournalManagementSystem subscriberObserver, JFrame frame) {
+    private void addIndividualFields(JPanel panel, Distributor distributor, JTextField nameField, JTextField addressField, Main subscriberObserver, JFrame frame) {
         panel.add(new JLabel("Credit Card Number:"));
         JTextField creditCardNumberField = new JTextField();
         panel.add(creditCardNumberField);
@@ -100,7 +100,7 @@ public class AddSubscriberPage {
         panel.add(saveButton);
     }
 
-    private void addCorporationFields(JPanel panel, Distributor distributor, JTextField nameField, JTextField addressField, JournalManagementSystem subscriberObserver, JFrame frame) {
+    private void addCorporationFields(JPanel panel, Distributor distributor, JTextField nameField, JTextField addressField, Main subscriberObserver, JFrame frame) {
         panel.add(new JLabel("Bank Code:"));
         JTextField bankCodeField = new JTextField();
         panel.add(bankCodeField);

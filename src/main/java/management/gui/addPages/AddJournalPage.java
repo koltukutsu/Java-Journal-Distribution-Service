@@ -2,13 +2,13 @@ package management.gui.addPages;
 
 import management.business.Distributor;
 import management.business.Journal;
-import management.gui.JournalManagementSystem;
+import management.gui.Main;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class AddJournalPage {
-    public AddJournalPage(Distributor distributor, JournalManagementSystem journalObserver) {
+    public AddJournalPage(Distributor distributor, Main journalObserver) {
         JFrame addJournalFrame = new JFrame("Add Journal");
         addJournalFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
