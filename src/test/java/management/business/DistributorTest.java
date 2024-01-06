@@ -38,6 +38,7 @@ public class DistributorTest extends TestCase {
     }
 
     public void testAddJournal() {
+
     }
 
     public void testSearchJournal() {

@@ -303,43 +303,92 @@ public class Distributor implements Serializable {
 //        }
     }
 
-    public void report(int queryMonth, int queryYear, int yearRange) {
-        // expired subscription -> month and year to be used
+    public Journal getJournal(String selectedJournal) {
+        for (Journal journal : journals.values()) {
+            if (journal.getName().equals(selectedJournal))
+                return journal;
+        }
+        return null;
+    }
 
-        // incomplete payments -> only yearRange to be used
+    public String getFilePathForState() {
+        return "./JournalManagementSystemState.dat";
+    }
 
+    public void report(int queryMonth, int queryYear, int queryYearStartRange, int queryYearEndRange) {
         new Thread(() -> {
-            // Logic to find subscriptions expiring after thresholdDate
-            // Logic to calculate payments received between startYear and endYear
             HashMap<Integer, Double> payments = new HashMap<Integer, Double>();
             Vector<String> subscriptions = new Vector<String>();
-            for(Journal journal : journals.values()){
-                for(Subscription subscription : journal.getSubscriptions()) {
+            TreeMap<Integer, Integer> sortedSubscriptions = new TreeMap<Integer, Integer>();
+            for (Journal journal : journals.values()) {
+                for (Subscription subscription : journal.getSubscriptions()) {
                     DateInfo subscriptionDate = subscription.getDates();
                     int startYear = subscriptionDate.getStartYear();
                     int startMonth = subscriptionDate.getStartMonth();
                     int endMonth = subscriptionDate.getEndMonth();
                     int endYear = subscriptionDate.getEndYear();
                     // for the 1.part
-                    if(queryYear > endYear){
+                    if (queryYear > endYear) {
+                        if(sortedSubscriptions.containsKey(endYear)){
+                            sortedSubscriptions.put(endYear, sortedSubscriptions.get(endYear) + 1);
+                        } else{
+                            sortedSubscriptions.put(endYear, 1);
+                        }
                         subscriptions.add(subscription.getSubscriptionInformation());
                     } else {
-                        if(queryYear == endYear){
-                            if(queryMonth > endMonth){
+                        if (queryYear == endYear) {
+                            if (queryMonth > endMonth) {
+                                if(sortedSubscriptions.containsKey(endYear)){
+                                    sortedSubscriptions.put(endYear, sortedSubscriptions.get(endYear) + 1);
+                                } else{
+                                    sortedSubscriptions.put(endYear, 1);
+                                }
                                 subscriptions.add(subscription.getSubscriptionInformation());
                             }
                         }
                     }
                     // for the 2. part
                     double receivedPayment = subscription.getPayment().getReceivedPayment();
-                    if(payments.containsKey(startYear)){
-                        payments.put(startYear, payments.get(startYear) + receivedPayment);
-                    } else{
-                        payments.put(startYear, receivedPayment);
+                    if(startYear >= queryYearStartRange && startYear <= queryYearEndRange) {
+                        if (payments.containsKey(startYear)) {
+                            payments.put(startYear, payments.get(startYear) + receivedPayment);
+                        } else {
+                            payments.put(startYear, receivedPayment);
+                        }
                     }
+
                 }
             }
             // 1. logic
+            // give a barplot that shows the amount of subscriptions that are not renewed by using the size of the vector
+            // there will be only one bar in the plot
+            DefaultCategoryDataset datasetForEndedSubscriptions = new DefaultCategoryDataset();
+//            int endedSubscriptions = subscriptions.size();
+            for (Map.Entry<Integer, Integer> entry : sortedSubscriptions.entrySet()) {
+                datasetForEndedSubscriptions.addValue(entry.getValue(), "Subscriptions", entry.getKey());
+            }
+//            datasetForEndedSubscriptions.addValue(endedSubscriptions, "Subscriptions", "Ended Subscriptions");
+            JFreeChart barChartForEndedSubscriptions = ChartFactory.createBarChart(
+                    "Ended Subscriptions",
+                    "Subscriptions",
+                    "Amount",
+                    datasetForEndedSubscriptions,
+                    PlotOrientation.VERTICAL,
+                    true, true, false);
+            File fileForEndedSubscriptions = new File("ended_subscriptions.png");
+            try{
+                ChartUtilities.saveChartAsPNG(fileForEndedSubscriptions, barChartForEndedSubscriptions, 560, 367);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            SwingUtilities.invokeLater(() -> {
+                ChartPanel chartPanel = new ChartPanel(barChartForEndedSubscriptions);
+                chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
+                JFrame chartFrame = new JFrame();
+                chartFrame.add(chartPanel);
+                chartFrame.pack();
+                chartFrame.setVisible(true);
+            });
 
             // 2. logic: save hash as a chart which shows based on year
             TreeMap<Integer, Double> sortedPayments = new TreeMap<>(payments);
@@ -357,7 +406,7 @@ public class Distributor implements Serializable {
                     true, true, false);
 
             // Save the chart as a PNG file
-            File file = new File("secondChoice.png");
+            File file = new File("received_payments.png");
             try {
                 ChartUtilities.saveChartAsPNG(file, barChart, 560, 367);
             } catch (IOException e) {
@@ -376,16 +425,5 @@ public class Distributor implements Serializable {
 
     }
 
-    public Journal getJournal(String selectedJournal) {
-        for (Journal journal : journals.values()) {
-            if (journal.getName().equals(selectedJournal))
-                return journal;
-        }
-        return null;
-    }
-
-    public String getFilePathForState() {
-        return "./JournalManagementSystemState.dat";
-    }
 
 }

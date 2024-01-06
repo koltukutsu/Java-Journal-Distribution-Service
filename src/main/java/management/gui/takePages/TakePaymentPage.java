@@ -10,7 +10,7 @@ import java.util.Vector;
 
 public class TakePaymentPage {
     public TakePaymentPage(Distributor distributor) {
-        JFrame takePaymentFrame = new JFrame("Take Payment");
+        JFrame takePaymentFrame = new JFrame("Make Payment");
         takePaymentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         takePaymentFrame.setLayout(new BorderLayout()); // Use BorderLayout for the frame
 

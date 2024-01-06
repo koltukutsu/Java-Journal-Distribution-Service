@@ -56,8 +56,8 @@ public class JournalManagementSystem {
         // Buttons below text columns
         // Buttons below text columns
         JPanel payAndReportPanel = new JPanel(new GridLayout(2, 1));
-        JButton takeReportButton = new JButton("Take Report");
-        JButton takePaymentButton = new JButton("Take Payment");
+        JButton takeReportButton = new JButton("Generate Report");
+        JButton takePaymentButton = new JButton("Make Payment");
         payAndReportPanel.add(takeReportButton);
         payAndReportPanel.add(takePaymentButton);
 
