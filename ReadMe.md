@@ -1,4 +1,5 @@
 # Java Journal Distribution Service
+This app is written as a practice to learn Java and JavaFX. It is a simple journal distribution service that allows you to add subscribers, add journals, and record payments. Besides, it allows you to see the recorded journals,subscribers and subscriptions. It also allows you to see the journals that are not yet distributed and the payments that are not yet received.
 ## App Interface
 #### Main App Page
 ![Main Page](/images/main.png)

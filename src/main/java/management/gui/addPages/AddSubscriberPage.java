@@ -28,7 +28,6 @@ public class AddSubscriberPage {
         // Add shared fields panel to the frame
         addSubscriberFrame.add(sharedFieldsPanel, BorderLayout.NORTH);
 
-        // Create the panel for subscriber-specific fields
         JPanel subscriberFieldsPanel = new JPanel(new GridLayout(0, 2, 10, 10)); // Use 0 for dynamic row allocation
 
         String[] options = {"Individual", "Corporation"};

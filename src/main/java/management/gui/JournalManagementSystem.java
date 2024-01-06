@@ -49,12 +49,9 @@ public class JournalManagementSystem {
         rightPanel.add(showSubscribersButton);
         rightPanel.add(showSubscriptionsButton);
 
-        // Add panels to the main frame
         mainFrame.add(leftPanel);
         mainFrame.add(rightPanel);
 
-        // Buttons below text columns
-        // Buttons below text columns
         JPanel payAndReportPanel = new JPanel(new GridLayout(2, 1));
         JButton takeReportButton = new JButton("Generate Report");
         JButton takePaymentButton = new JButton("Make Payment");
@@ -186,8 +183,6 @@ public class JournalManagementSystem {
     }
 
     public static void main(String[] args) {
-        // Create an instance of the Distributor class
-
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

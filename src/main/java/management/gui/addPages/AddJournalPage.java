@@ -28,12 +28,10 @@ public class AddJournalPage {
 
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
-            // Validate input fields
             if (isFieldEmpty(issnField) || isFieldEmpty(frequencyField) || isFieldEmpty(nameField) || isFieldEmpty(issuePriceField)) {
                 JOptionPane.showMessageDialog(addJournalFrame, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 try {
-                    // Perform necessary actions with the input data (e.g., save to a data structure or database)
                     Journal journal = new Journal(nameField.getText(), issnField.getText(), Integer.parseInt(frequencyField.getText()), Integer.parseInt(issuePriceField.getText()));
                     boolean isAdded = distributor.addJournal(journal);
                     if (isAdded) {
@@ -43,7 +41,7 @@ public class AddJournalPage {
                     } else {
                         JOptionPane.showMessageDialog(addJournalFrame, "Journal ISSN is already signed, cannot add Journal!");
                     }
-                    addJournalFrame.dispose(); // Close the Add main.Journal page
+                    addJournalFrame.dispose(); // Close the window
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(addJournalFrame, "Please enter valid numeric values for Frequency and Issue Price.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
