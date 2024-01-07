@@ -123,7 +123,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Code to open the Show Subscriptions page
-                new TakePaymentPage(getDistributor());
+                new TakePaymentPage(getDistributor(), Main.this);
             }
         });
         // Add buttons below text columns to the main frame

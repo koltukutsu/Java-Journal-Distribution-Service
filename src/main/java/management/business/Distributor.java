@@ -269,14 +269,6 @@ public class Distributor implements Serializable {
                     + "writing to file.");
             e.printStackTrace();
         }
-//
-//        return;
-//        try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(fileName)))) {
-//            oos.writeObject(this);
-//            System.out.println("State saved successfully.");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public synchronized void loadState(String fileName) {

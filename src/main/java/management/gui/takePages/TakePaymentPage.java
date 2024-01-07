@@ -1,6 +1,7 @@
 package management.gui.takePages;
 
 import management.business.*;
+import management.gui.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class TakePaymentPage {
-    public TakePaymentPage(Distributor distributor) {
+    public TakePaymentPage(Distributor distributor, Main updateState) {
         JFrame takePaymentFrame = new JFrame("Make Payment");
         takePaymentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         takePaymentFrame.setLayout(new BorderLayout()); // Use BorderLayout for the frame
